@@ -29,6 +29,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Test
+        run:
+          service_dir=$(echo ${{ env.JOBS }} | jq -r '."${{ inputs.service_name }}"')
+          echo $service_dir
+
       - uses: actions/checkout@v4
 
       - name: Setup
