@@ -34,8 +34,9 @@ jobs:
       - name: Generate matrix for "all" option
         id: set-matrix
         run: |
+          jobs=${{ env.JOBS }}
           if [[ "${{ inputs.service_name }}" == "all" ]]; then
-            echo "matrix=$(echo $JOBS | jq -c 'keys')" >> $GITHUB_OUTPUT
+            echo "matrix=$(echo $jobs | jq -c 'keys')" >> $GITHUB_OUTPUT
           else
             echo "matrix=[\"${{ inputs.service_name }}\"]" >> $GITHUB_OUTPUT
           fi
@@ -54,6 +55,7 @@ jobs:
           # echo $jobs
           # echo "JOB_PATH=$(echo $jobs| jq -r '."${{ inputs.service_name }}"')" >> $GITHUB_ENV
           # echo $JOB_PATH
+          jobs=${{ env.JOBS }}
           JOB_PATH=$(echo '${{ env.JOBS }}' | jq -r '."${{ matrix.service_name }}"')
           echo "JOB_PATH=$JOB_PATH" >> $GITHUB_ENV
           echo "Using path: $JOB_PATH"
