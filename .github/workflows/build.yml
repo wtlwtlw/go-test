@@ -49,14 +49,16 @@ jobs:
         service_name: ${{ fromJson(needs.setup.outputs.matrix) }}
 
     steps:
+      - name: Check matrix
+        run: |
+          jobs=${{ env.JOBS }}
+          echo $jobs
+          echo ${{ matrix.service_name }}
+
       - name: Determine build path
         run: |
-          # jobs=${{ env.JOBS }}
-          # echo $jobs
-          # echo "JOB_PATH=$(echo $jobs| jq -r '."${{ inputs.service_name }}"')" >> $GITHUB_ENV
-          # echo $JOB_PATH
           jobs=${{ env.JOBS }}
-          echo "JOB_PATH=$(echo $jobs| jq -r '."${{ matrix.service_name }}"')" >> $GITHUB_ENV
+          echo "JOB_PATH=$(echo $jobs | jq -r '."${{ matrix.service_name }}"')" >> $GITHUB_ENV
           echo "Using path: $JOB_PATH"
 
       - uses: actions/checkout@v4
