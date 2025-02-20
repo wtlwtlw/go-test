@@ -15,11 +15,11 @@ on:
 
 env:
   JOBS: |
-{
-  "a-service": "cmd/a-service",
-  "b-service": "cmd/b-service",
-  "lib-service": "lib/cmd",
-}
+    {
+      "a-service": "cmd/a-service",
+      "b-service": "cmd/b-service",
+      "lib-service": "lib/cmd",
+    }
 
 permissions:
   contents: read
