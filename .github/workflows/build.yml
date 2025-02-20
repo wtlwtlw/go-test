@@ -11,6 +11,15 @@ on:
         options:
           - a-serivce
           - b-service
+          - lib-service
+
+env:
+  JOBS: |
+{
+  "a-service": "cmd/a-service",
+  "b-service": "cmd/b-service",
+  "lib-service": "lib/cmd",
+}
 
 permissions:
   contents: read
@@ -21,6 +30,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+
       - name: Setup
         uses: actions/setup-go@v5
         with:
@@ -28,10 +38,11 @@ jobs:
 
       - name: Build ${{ inputs.service_name }}
         run: |
-          cd cmd/${{ inputs.service_name }}
+          service_dir=$(echo "$JOBS" | jq -r '.${{ inputs.service_name }}')
+          cd $service_dir
           go build -o amd64
 
       - name: Run ${{ inputs.service_name }}
         run: |
-          cd cmd/${{ inputs.service_name }}
+          cd $service_dir
           ./amd64
