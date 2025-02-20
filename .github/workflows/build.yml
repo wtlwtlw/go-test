@@ -38,7 +38,7 @@ jobs:
 
       - name: Build ${{ inputs.service_name }}
         run: |
-          service_dir=$(echo "$JOBS" | jq -r '.${{ inputs.service_name }}')
+          service_dir=$(echo "${{ env.JOBS }}" | jq -r '.${{ inputs.service_name }}')
           cd $service_dir
           go build -o amd64
 
