@@ -1,0 +1,37 @@
+name: Build
+run-name: Build for [${{ inputs.service_name }}] by @${{ github.actor }}
+
+on:
+  workflow_dispatch:
+    inputs:
+      service_name:
+        description: "service to build"
+        required: true
+        type: choice
+        options:
+          - a-serivce
+          - b-service
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup
+        uses: actions/setup-go@v5
+        with:
+          go-version-file: "./go.mod"
+
+      - name: Build ${{ inputs.service_name }}
+        run: |
+          cd cmd/${{ inputs.service_name }}
+          go build -o amd64
+
+      - name: Run ${{ inputs.service_name }}
+        run: |
+          cd cmd/${{ inputs.service_name }}
+          ./amd64
