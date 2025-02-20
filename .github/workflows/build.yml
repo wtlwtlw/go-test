@@ -31,10 +31,10 @@ jobs:
     steps:
       - name: Test
         run: |
-          dirs=${{ env.JOBS }}
-          echo $dirs
-          service_dir=$(echo $dirs | jq -r '."${{ inputs.service_name }}"')
-          echo $service_dir
+          jobs=${{ env.JOBS }}
+          echo $jobs
+          echo "JOB_PATH=$(echo $jobs| jq -r '."${{ inputs.service_name }}"')" >> $GITHUB_ENV
+          echo $JOB_PATH
 
       - uses: actions/checkout@v4
 
@@ -45,12 +45,10 @@ jobs:
 
       - name: Build ${{ inputs.service_name }}
         run: |
-          dirs=${{ env.JOBS }}
-          service_dir=$(echo $dirs| jq -r '."${{ inputs.service_name }}"')
-          cd $service_dir
+          cd $JOB_PATH
           go build -o amd64
 
       - name: Run ${{ inputs.service_name }}
         run: |
-          cd $service_dir
+          cd $JOB_PATH
           ./amd64
