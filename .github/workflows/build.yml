@@ -18,7 +18,7 @@ env:
     {
       "a-service": "cmd/a-service",
       "b-service": "cmd/b-service",
-      "lib-service": "lib/cmd",
+      "lib-service": "lib/cmd"
     }
 
 permissions:
@@ -38,7 +38,8 @@ jobs:
 
       - name: Build ${{ inputs.service_name }}
         run: |
-          service_dir=$(echo "${{ env.JOBS }}" | jq -r '.${{ inputs.service_name }}')
+          echo ${{ env.JOBS }}
+          service_dir=$(echo "${{ env.JOBS }}" | jq -r '."${{ inputs.service_name }}"')
           cd $service_dir
           go build -o amd64
 
