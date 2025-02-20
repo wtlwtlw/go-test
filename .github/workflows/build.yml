@@ -56,8 +56,7 @@ jobs:
           # echo "JOB_PATH=$(echo $jobs| jq -r '."${{ inputs.service_name }}"')" >> $GITHUB_ENV
           # echo $JOB_PATH
           jobs=${{ env.JOBS }}
-          JOB_PATH=$(echo '${{ env.JOBS }}' | jq -r '."${{ matrix.service_name }}"')
-          echo "JOB_PATH=$JOB_PATH" >> $GITHUB_ENV
+          echo "JOB_PATH=$(echo $jobs| jq -r '."${{ matrix.service_name }}"')" >> $GITHUB_ENV
           echo "Using path: $JOB_PATH"
 
       - uses: actions/checkout@v4
